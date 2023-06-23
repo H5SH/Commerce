@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div id="main_title" class="center">
+            <h1>PAPPI'S POPCORNS</h1>
+       
+            {% if user.is_authenticated %}
+                Signed in as <strong>{{ user.username }}</strong>.
+
+            {% else %}
+                Not signed in.
+            {% endif %}
+            <form id="center" action="{% url 'search' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="q" id="search" placeholder="Search">
+            </form>
+        <ul class="nav" id="botton_list">
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}" class="homepage_b">Active Listings</a>
+        
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                       <a class="nav-link" href="{% url 'logout' %}" class="homepage_b">Log Out</a>
+                </li>
+                <li>
+                       <a class="nav-link" href="{% url 'new' %}" class="homepage_b">Create Listning</a>
+                </li>
+                <li class="nav-item">
+                       <a class="nav-link" href="{% url 'display_watchlist' user.id %}" class="homepage_b">Watchlist</a>
+                </li>
+                {% if user.auctions_won != None %}
+                <li>      
+                       <a class="nav-link"  href="{% url 'won' user.id %}" class="homepage_b">Auctions Won</a>
+                </li>
+                {% endif %}
+                <li>
+                   
+                       <a class="nav-link" href="{% url 'catogery' %}" class="homepage_b">Catogeries</a>
+                   
+                </li>
+            {% else %}
+                <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}" class="homepage_b">Log In</a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}" class="homepage_b">Register</a>
+                </li>
+                <li>
+                        <a class="nav-link" href="{% url 'catogery' %}" class="homepage_b">Catogeries</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div id="page"> 
+        {% block body %}
+        {% endblock %}
+    </div>
+    </body>
+</html>

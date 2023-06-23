@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{ heading }}</h2>
+    <ul>
+        {% if entries is empty %}
+        <p>List is empty</p>
+        {% endif %}
+        {% for entry in entries %}
+        <div class="card"> 
+        {% if entry.auction_active == True %}
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'entry'  auction_id=entry.id user_id=user.id %}"> 
+        {% else %}
+        <a href="{% url 'entry'  auction_id=entry.id user_id=0 %}">
+            {% endif %}
+        <li>
+            <h5> {{ entry.auction_name }} </h5>
+            {% if entry.auction_pic %}
+            <img src="{{ entry.auction_pic }}" alt="{{ entry.auction_name }}" class="index_img">
+            {% endif %}
+            <div class="card_text"> 
+                <strong>Discription:</strong><br>
+            {{ entry.auction_discription }}
+            <br><br>
+            <strong>Bid:{{ entry.auction_bid.bid }}</strong> 
+            </div> 
+            
+           
+        </li>
+        {% endif %}
+        <hr>
+    
+   
+    </div>
+        {% endfor %}
+    </a>
+    </ul>
+{% endblock %}

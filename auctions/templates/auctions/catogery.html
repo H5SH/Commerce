@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <ul>
+        {% for catogery in catogeries %}
+        <li>
+            {% if catogery != 'None' %}
+            <a href="{% url 'same_catogery' catogery%}">
+            {{ catogery }}
+            </a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+
+
+
+
+

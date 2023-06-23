@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h2>{{ heading }}</h2>
+
+<ul>
+    {% for entry in entries %}
+    <li>
+        <a href="{% url 'entry' auction_id=entry.id user_id=user.id %}">
+            <h5>{{ entry.auction_name }}</h5> 
+            {% if entry.auction_pic != None %}
+            <img src="{{ entry.auction_pic }}" alt="{{ entry.auction_name }}">
+            <br>
+            {% endif %}
+            Bid:{{ entry.auction_bid.bid }}
+        </a>
+    </li>
+    <hr>
+    </ul> 
+    {% endfor %}
+</ul>
+    
+
+{% endblock %}
+    
+
+
+

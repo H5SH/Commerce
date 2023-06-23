@@ -1,0 +1,25 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}
+New
+{% endblock %}
+
+{% block body %}
+<div class="center"> 
+<form action="{% url 'new' %}" method="POST" id="new_form">
+    {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{ user.id }}">
+   {{ form.title | linebreaks }}  {{ form.pic | linebreaks }} {{ form.price | linebreaks }}
+   <select name="catogery" class="form-select form-select-sm" aria-label=".form-select-sm example">
+    {% for catogery in catogeries %}
+    <option name="catogery" value="{{ catogery }}" >{{ catogery }}</option>
+    {% endfor %}
+   </select>
+   <br>
+    Discription: <br> {{ form.discription }}
+    <button class="margin_remove" id="create" type="submit">Create</button>
+</form>
+</div>
+
+
+{% endblock %}

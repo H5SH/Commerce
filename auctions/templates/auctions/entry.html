@@ -1,0 +1,82 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div id="entry_display"> 
+
+<h2>{{ entry.auction_name }}</h2>
+{% if entry.auction_pic %}
+
+<img id="entry_img" src="{{ entry.auction_pic }}" alt="{{ entry.auction_name }}" width="10" height="10">
+
+{% endif %}
+<br><strong> Catogery </strong> : {{ entry.auction_type }}
+    <div id="discription_div"> 
+        <strong>Discription</strong><br>
+{{ entry.auction_discription }}
+</div>
+<h4>Starting price: {{ entry.starting_price }}</h4>
+<h4>Bids: {{ entry.auction_bid.bid }}</h4>
+
+{% if user.is_authenticated %}
+{% if entry in watchlist and entry.auction_active == True %}
+
+<form action="{% url 'watchlist' auction_id=entry.id user_id=user.id %}", method="get">
+    {% csrf_token %}
+    <button class="margin_remove" type="submit">
+        Remove from Watchlist
+    </button>
+</form>
+
+{% elif entry.auction_active == True %}
+
+<form action="{% url 'watchlist' auction_id=entry.id user_id=user.id %}", method="post">
+    {% csrf_token %}
+    <button class="margin_remove" type="submit">
+       Add to Watchlist
+    </button>
+</form>
+
+{% endif %}
+
+{% if entry in auction_list and entry.auction_active == True %}
+<form action="{% url 'entry' auction_id=entry.id user_id=user.id %}" method="post">
+    {% csrf_token %}
+    <button class="margin_remove" type="submit">Close listing</button>
+</form>
+{% endif %}
+
+{% if entry.auction_active == True %}
+<div class="center"> 
+<form action="{% url 'entry' auction_id=entry.id user_id=user.id %}" method="post">
+    {% csrf_token %}
+    {{ form.bid | linebreaks }}
+    <button id="bid_b" type="submit">Bid</button>
+</form>
+</div>
+
+<form action="{% url 'entry' auction_id=entry.id user_id=user.id %}" method="post">
+    {% csrf_token %}
+    {{ form.comment }}
+    <button class="bid_comment" type="submit">Add comment</button>
+</form>
+
+
+
+
+
+{% endif %}
+
+
+
+{% endif %}
+
+{% for comment in comments %}
+<p class="text">
+    <strong>{{ comment.commenter }}:</strong>  {{ comment.comment }}
+</p>
+<hr>
+{% endfor %}
+
+</div>
+
+{% endblock %}
